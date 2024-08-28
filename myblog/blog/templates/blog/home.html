@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Блог - Главная</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Добро пожаловать в Блог</h1>
+
+        <!-- User Authentication Links -->
+        <div class="mb-3">
+            {% if user.is_authenticated %}
+                <p>Вы вошли как {{ user.username }}.</p>
+                <a href="{% url 'logout' %}" class="btn btn-outline-secondary">Выйти</a>
+                <a href="{% url 'create_post' %}" class="btn btn-primary">Создать новый пост</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="btn btn-outline-primary">Вход</a>
+                <a href="{% url 'register' %}" class="btn btn-primary">Регистрация</a>
+            {% endif %}
+        </div>
+
+        <!-- Public Posts Section -->
+        <h2>Публичные посты</h2>
+        {% if posts %}
+            <ul class="list-group mb-4">
+                {% for post in posts %}
+                    <li class="list-group-item">
+                        <h4>{{ post.title }}</h4>
+                        <p>{{ post.content|truncatewords:20 }}</p>
+                        <small>Автор: {{ post.author.username }} | Дата: {{ post.created_at|date:"d F Y" }}</small>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Публичные посты отсутствуют.</p>
+        {% endif %}
+
+        <!-- Navigation Links -->
+        <nav class="mt-4">
+            <ul class="nav">
+                <li class="nav-item"><a href="{% url 'public_posts' %}" class="nav-link">Все публичные посты</a></li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item"><a href="{% url 'subscriptions_feed' %}" class="nav-link">Моя лента</a></li>
+                    <li class="nav-item"><a href="{% url 'create_post' %}" class="nav-link">Создать новый пост</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</body>
+</html>
