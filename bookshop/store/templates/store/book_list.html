@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Книжный магазин</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .book-card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        .book-card:hover {
+            transform: translateY(-5px);
+        }
+        .navbar {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Навигационная панель -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Книжный магазин</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Главная</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Категории</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Авторы</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Контакты</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Контент -->
+    <div class="container">
+        <h1 class="text-center my-5">Добро пожаловать в Книжный магазин</h1>
+
+        <!-- Фильтрация по категории и автору -->
+        <form method="GET" class="mb-4">
+            <div class="form-row">
+                <div class="col-md-4">
+                    <select name="category" class="form-control">
+                        <option value="">Выберите категорию</option>
+                        {% for category in categories %}
+                            <option value="{{ category.id }}" {% if request.GET.category == category.id|stringformat:"s" %}selected{% endif %}>{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <select name="author" class="form-control">
+                        <option value="">Выберите автора</option>
+                        {% for author in authors %}
+                            <option value="{{ author.id }}" {% if request.GET.author == author.id|stringformat:"s" %}selected{% endif %}>{{ author.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary btn-block">Фильтровать</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Сортировка по году написания -->
+        <form method="GET" class="mb-4">
+            <input type="hidden" name="category" value="{{ request.GET.category }}">
+            <input type="hidden" name="author" value="{{ request.GET.author }}">
+            <div class="form-row">
+                <div class="col-md-6">
+                    <select name="sort_by_year" class="form-control">
+                        <option value="">Сортировать по году</option>
+                        <option value="asc" {% if request.GET.sort_by_year == "asc" %}selected{% endif %}>По возрастанию</option>
+                        <option value="desc" {% if request.GET.sort_by_year == "desc" %}selected{% endif %}>По убыванию</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-secondary btn-block">Сортировать</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Отображение книг -->
+        <div class="row">
+            {% for book in books %}
+            <div class="col-md-4 mb-4">
+                <div class="card book-card">
+                    <img src="https://via.placeholder.com/150" class="card-img-top" alt="Обложка книги">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ book.title }}</h5>
+                        <p class="card-text">Автор: {{ book.author.name }}</p>
+                        <p class="card-text">Год: {{ book.year }}</p>
+                        <p class="card-text">Цена: {{ book.price }} ₽</p>
+                        <a href="{% url 'book_detail' book.id %}" class="btn btn-primary">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <footer class="text-center mt-5 py-4 bg-dark text-light">
+        <p>© 2024 Книжный магазин. Все права защищены.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
