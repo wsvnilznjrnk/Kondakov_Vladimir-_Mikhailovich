@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ travel.title }}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">{{ travel.title }}</h1>
+        <div class="row">
+            <div class="col-md-6">
+                {% if travel.image %}
+                    <img src="{{ travel.image.url }}" class="img-fluid" alt="Изображение путешествия">
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <p><strong>Описание:</strong> {{ travel.description }}</p>
+                <p><strong>Местоположение:</strong> {{ travel.location }}</p>
+                <p><strong>Стоимость:</strong> {{ travel.cost }} ₽</p>
+                <p><strong>Оценка удобства:</strong> {{ travel.convenience_rating }} / 5</p>
+                <p><strong>Оценка безопасности:</strong> {{ travel.safety_rating }} / 5</p>
+                <p><strong>Оценка населенности:</strong> {{ travel.population_density_rating }} / 5</p>
+                <p><strong>Оценка растительности:</strong> {{ travel.vegetation_rating }} / 5</p>
+            </div>
+        </div>
+        <a href="{% url 'travel_list' %}" class="btn btn-secondary mt-4">Назад к списку</a>
+    </div>
+</body>
+</html>

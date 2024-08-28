@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Дневник путешествий</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f0f8ff;
+        }
+        .navbar {
+            margin-bottom: 30px;
+        }
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .footer {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #343a40;
+            color: white;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Навигационная панель -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Дневник путешествий</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'create_travel_entry' %}">Добавить путешествие</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Список путешествий -->
+    <div class="container">
+        <h1 class="text-center mb-5">Путешествия пользователей</h1>
+        <div class="row">
+            {% for travel in travels %}
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <img src="{{ travel.image.url }}" class="card-img-top" alt="Изображение путешествия" onerror="this.src='https://via.placeholder.com/300'">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ travel.title }}</h5>
+                        <p class="card-text">{{ travel.description|truncatewords:15 }}</p>
+                        <a href="{% url 'travel_detail' travel.id %}" class="btn btn-primary">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <p>© 2024 Дневник путешествий. Все права защищены.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

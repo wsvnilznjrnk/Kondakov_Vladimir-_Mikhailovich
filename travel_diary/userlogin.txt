@@ -1,0 +1,3 @@
+su - admin
+admin@admin.ru
+O6a2ftc9Xon9
