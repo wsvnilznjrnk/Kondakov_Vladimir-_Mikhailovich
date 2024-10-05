@@ -1,4 +1,4 @@
-# ermolaeva_eva_aleksandrovna
-Ермолаева Ева Александровна (Практика)
+# Kondakov_Vladimir_Mikhailovich
+Кондаков Владимир Михайлович (Практика)
 
 Реализация на Django
